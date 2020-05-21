@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <a-menu mode="horizontal" v-model="current" theme="dark">
         <a-menu-item @click="menuHandle(menu.name)" v-for="menu in menuList" :key="menu.name"> <a-icon :type="menu.icon" />{{menu.name_z}}</a-menu-item>
     </a-menu>
@@ -26,6 +26,9 @@ export default {
 };
 </script>
 <style scope>
+  .app{
+    height : 100%;
+  }
   .main-container{
     padding : 20px;
   }

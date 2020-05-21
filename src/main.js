@@ -3,9 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import "./styles/index.css"
+
+// ant-design
 import Antd from "ant-design-vue"
 import 'ant-design-vue/dist/antd.less'
 Vue.use(Antd)
+
+// echarts
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 
