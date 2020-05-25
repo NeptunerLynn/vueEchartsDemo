@@ -4,7 +4,7 @@
         <a-menu-item @click="menuHandle(menu.name)" v-for="menu in menuList" :key="menu.name"> <a-icon :type="menu.icon" />{{menu.name_z}}</a-menu-item>
         <a-dropdown :trigger="['click']" class="theme-item">
           <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-            切换主题 <a-icon type="down" />
+            <a-icon type="skin"/> 切换主题 <a-icon type="down" />
           </a>
           <a-menu slot="overlay" @click="themeUpdate">
             <a-menu-item key=0>
@@ -29,12 +29,14 @@ export default {
   data() {
     return {
       name : "App",
-      menuList : this.$router.options.routes,
-      current : [this.$router.options.routes[0].name]
+      menuList : this.$router.options.routes.filter((value, index, arr) => {
+        return value.name && value.name != 'Login';
+      }),
+      current : [this.$route.name]
     };
   },
   created(){
-     this.$router.push({ name: this.current });
+    this.themeUpdate({key:this.$store.state.themeId});
   },
   methods : {
     menuHandle(name){
@@ -59,9 +61,6 @@ export default {
           console.log("主题更换失败");
       });
     }
-  },
-  watch : {
-    
   }
 };
 </script>

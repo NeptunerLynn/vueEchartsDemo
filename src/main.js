@@ -14,8 +14,8 @@ Vue.use(Antd)
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
+// vuex
 import store from './store/store'
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js", 
+    "dev": "node color &&  webpack-dev-server --inline --progress --config build/webpack.dev.conf.js", 
     "start": "npm run dev",
     "build": "node color && webpack --config build/webpack.prod.conf.js"
   },
