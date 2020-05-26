@@ -32,7 +32,7 @@ export default {
       menuList : this.$router.options.routes.filter((value, index, arr) => {
         return value.name && value.name != 'Login';
       }),
-      current : [this.$route.name]
+      current : []
     };
   },
   created(){
@@ -55,11 +55,16 @@ export default {
           }
       )
       .then(() => {
-          console.log("主题更换成功");
+          // console.log("主题更换成功");
       })
       .catch(error => {
-          console.log("主题更换失败");
+          // console.log("主题更换失败");
       });
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.current.push(this.$route.name);
     }
   }
 };

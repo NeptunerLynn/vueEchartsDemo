@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node color &&  webpack-dev-server --inline --progress --config build/webpack.dev.conf.js", 
+    "dev": "node color &&  webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node color && webpack --config build/webpack.prod.conf.js"
   },
@@ -33,12 +33,14 @@
     "babel-preset-env": "^1.3.2",
     "babel-preset-stage-2": "^6.22.0",
     "chalk": "^2.0.1",
+    "compression-webpack-plugin": "^1.1.12",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "mockjs": "^1.1.0",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",

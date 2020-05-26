@@ -1,5 +1,6 @@
 <template>
     <div class="login-bg">
+        <BgAnimation />
         <a-card title="登 录 系 统" class="login-content" style="width: 450px">
              <a-form :form="form" >
                 <a-form-item
@@ -38,6 +39,7 @@
     </div>
 </template>
 <script>
+import BgAnimation from "./../common/BgAnimation"
 const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 },
@@ -47,6 +49,7 @@ const formTailLayout = {
   wrapperCol: { span: 8, offset: 4 },
 };
 export default {
+    components: { BgAnimation },
     data(){
         return{
             formItemLayout,

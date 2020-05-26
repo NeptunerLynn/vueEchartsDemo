@@ -1,11 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import LineChart from "@/components/LineChart"
-import PieChart from "@/components/PieChart"
-import ForceChart from "@/components/ForceChart"
-import MapChart from "@/components/MapChart"
-import Table from "@/components/Table"
-import LoginPage from "@/components/Login"
 
 Vue.use(Router)
 
@@ -14,19 +8,27 @@ let router = new Router({
   routes: [
     {
       path:"/",
-      redirect : "/lineChart"
+      redirect : "/mapChart"
     },
     {
       path: '/login',
       name: 'Login',
-      component: LoginPage
+      component: () => import('@/components/Login')
+    },
+    {
+      path: '/mapChart',
+      name: 'MapChart',
+      name_z : "地图",
+      icon : "sliders",
+      component: () => import('@/components/MapChart'),
+      meta:{requiresAuth: true}
     },
     {
       path: '/lineChart',
       name: 'LineChart',
       name_z : "折线图",
       icon : "area-chart",
-      component: LineChart,
+      component: () => import('@/components/LineChart'),
       meta:{requiresAuth: true}
     },
     {
@@ -34,7 +36,7 @@ let router = new Router({
       name: 'PieChart',
       name_z : "饼状图",
       icon : "pie-chart",
-      component: PieChart,
+      component: () => import('@/components/PieChart'),
       meta:{requiresAuth: true}
     },
     {
@@ -42,15 +44,7 @@ let router = new Router({
       name: 'ForceChart',
       name_z : "力导图",
       icon : "dot-chart",
-      component: ForceChart,
-      meta:{requiresAuth: true}
-    },
-    {
-      path: '/mapChart',
-      name: 'MapChart',
-      name_z : "地图",
-      icon : "sliders",
-      component: MapChart,
+      component: () => import('@/components/ForceChart'),
       meta:{requiresAuth: true}
     },
     {
@@ -58,7 +52,7 @@ let router = new Router({
       name: 'Table',
       name_z : "表格",
       icon : "table",
-      component: Table,
+      component: () => import('@/components/Table'),
       meta:{requiresAuth: true}
     }
   ]

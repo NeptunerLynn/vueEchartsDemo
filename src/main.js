@@ -17,6 +17,8 @@ Vue.prototype.$echarts = echarts
 // vuex
 import store from './store/store'
 Vue.config.productionTip = false
+// mock
+require('./mock/index.js')
 
 /* eslint-disable no-new */
 new Vue({
