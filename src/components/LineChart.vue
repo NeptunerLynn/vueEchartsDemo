@@ -29,6 +29,9 @@ export default {
       }
     }
   },
+  beforeCreate(){
+    // this.$loading(1);
+  },
   created(){
     this.getData();
   },
@@ -37,7 +40,7 @@ export default {
       const res = await this.$http.get("/api/v1/getBarChartData");
       this.chartData = Object.assign({},res.data);
       this.drawLine();
-      // this.$toast(`返回成功`,0)
+      // this.$loading(0);
     },
     callback(key) {
       console.log(key);
@@ -139,7 +142,6 @@ export default {
     background: #f5f5f5;
     overflow: hidden;
     padding: 24px;
-    height: 100%;
 }
 .card-container > .ant-tabs-card > .ant-tabs-content {
     margin-top: -16px;
@@ -157,8 +159,7 @@ export default {
 }
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
     font-weight: normal;
-    border-color: #fff;
-    background: #fff;
+    border-bottom : none !important;
 }
 /* chart */
 .chart{

@@ -13,7 +13,7 @@ Toast.install = (Vue, option) => {
     opt = Object.assign({},opt,option);
     Vue.prototype.$toast = (tips,alertType) => {
         let curType = alertType ? alertType : opt.dafaultType,
-            tmp = `<transition name="slide-fade"><a-alert v-show="show" :message="tip" :type="type" show-icon /></transition>`;
+            tmp = `<transition name="slide-fade"><a-alert class="main-tip" v-show="show" :message="tip" :type="type" show-icon /></transition>`;
         
         if(showToast) return;
 
@@ -41,19 +41,25 @@ Toast.install = (Vue, option) => {
             toastVM.show = showToast = false;
         },opt.duration)
     };
-    Vue.prototype.$loading = (tips,type) => {
-        if(type == 'close'){
+    Vue.prototype.$loading = (type) => { //0：关闭；1：开启
+        if(type == 0){
             loadNode.show = showLoad = false;
         }else{
             if(showLoad) return;
-            const loadTpl = Vue.extend({
-                data : function(){
-                    return {
-                        show : showLoad
-                    }
-                },
-                template : ``
-            })
+            if(!loadNode){
+                const loadTpl = Vue.extend({
+                    data : function(){
+                        return {
+                            show : showLoad
+                        }
+                    },
+                    template : `<transition name="slide-fade"><a-spin class="main-tip" v-show="show" tip="Loading..."></a-spin></transition>`
+                });
+                loadNode = new loadTpl();
+                const tpl = loadNode.$mount().$el;
+                document.body.appendChild(tpl);
+            }
+            loadNode.show = showLoad = true;
         }
     }
 };

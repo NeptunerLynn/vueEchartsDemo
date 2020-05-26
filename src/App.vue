@@ -35,11 +35,15 @@ export default {
       current : []
     };
   },
+  beforeCreate(){
+      this.$loading(1);
+  },
   created(){
     this.themeUpdate({key:this.$store.state.themeId});
   },
   methods : {
     menuHandle(name){
+      this.$loading(1);
       this.$router.push({ name: name });
     },
     themeUpdate(e){
@@ -65,6 +69,7 @@ export default {
   watch: {
     '$route' (to, from) {
       this.current.push(this.$route.name);
+      this.$loading(0);
     }
   }
 };

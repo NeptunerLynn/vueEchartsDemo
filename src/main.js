@@ -42,6 +42,7 @@ Vue.use(Toast);
 axios.interceptors.response.use(
   response => {
     if(response.data[0].code != 200){
+      // this.$message.success('This is a success message');
       Vue.prototype.$toast(`响应错误 : ${response.data[0].msg}`,3);
       return {data : []};
     }else{
