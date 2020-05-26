@@ -1,6 +1,6 @@
 <template>
   <div class="card-container">
-    <a-tabs type="card">
+    <a-tabs type="card" @change="callback">
       <a-tab-pane key="1" tab="图形1">
         <div class="chart" id="myChart"></div>
       </a-tab-pane>
@@ -21,47 +21,30 @@
 export default {
   data() {
     return {
-      chartData : {}
+      chartData : {
+        bar1 : [],
+        bar2 : [],
+        bar3 : [],
+        line : []
+      }
     }
   },
   created(){
-    // const res = this.$http.get("/api/v1/getBarChartData");
-    // console.log(res);
-    let i = 0;
-    while(i < 50){
-      let nowa = new Date().getTime() + (i * 1000);
-      this.chartData.bar1.push({
-        name : nowa,
-        value : [nowa,parseInt(Math.random() * 100)]
-      });
-      this.chartData.bar2.push({
-        name : nowa,
-        value : [nowa,parseInt(Math.random() * 100)]
-      });
-      this.chartData.bar3.push({
-        name : nowa,
-        value : [nowa,parseInt(Math.random() * 100)]
-      });
-      this.chartData.line.push({
-        name : nowa,
-        value : [nowa,80 + parseInt(Math.random()  * 20)]
-      });
-      i++;
-    }
-  },
-  mounted(){
-    this.drawLine();
+    this.getData();
   },
   methods: {
+    async getData(){
+      const res = await this.$http.get("/api/v1/getBarChartData");
+      this.chartData = Object.assign({},res.data);
+      this.drawLine();
+      // this.$toast(`返回成功`,0)
+    },
     callback(key) {
       console.log(key);
     },
     drawLine(){
         let Max = Math.max(...this.chartData.bar1.map((v,i) => (v.value[1] || 0) + (this.chartData.bar2[i].value[1] || 0) + (this.chartData.bar3[i].value[1] || 0)));
-        console.log(Max);
-        // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById("myChart"))
-        // 绘制图表
         myChart.setOption({
             tooltip : {
               trigger : "axis",

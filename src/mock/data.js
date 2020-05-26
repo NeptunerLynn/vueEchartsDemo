@@ -29,6 +29,8 @@ const barChartData = [
     {
       code: 200,
       data: chartData
+        // code : -1,
+        // msg : "网络通信错误"
     }
   ]
   const res = {
