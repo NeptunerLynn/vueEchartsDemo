@@ -13,14 +13,14 @@ let router = new Router({
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/components/Login')
+      component: resolve=>(require(["@/components/Login"],resolve))
     },
     {
       path: '/mapChart',
       name: 'MapChart',
       name_z : "地图",
       icon : "sliders",
-      component: () => import('@/components/MapChart'),
+      component: resolve=>(require(["@/components/MapChart"],resolve)),
       meta:{requiresAuth: true}
     },
     {
@@ -28,7 +28,7 @@ let router = new Router({
       name: 'LineChart',
       name_z : "折线图",
       icon : "area-chart",
-      component: () => import('@/components/LineChart'),
+      component: resolve=>(require(["@/components/LineChart"],resolve)),
       meta:{requiresAuth: true}
     },
     {
@@ -36,7 +36,7 @@ let router = new Router({
       name: 'PieChart',
       name_z : "饼状图",
       icon : "pie-chart",
-      component: () => import('@/components/PieChart'),
+      component: resolve=>(require(["@/components/PieChart"],resolve)),
       meta:{requiresAuth: true}
     },
     {
@@ -44,7 +44,7 @@ let router = new Router({
       name: 'ForceChart',
       name_z : "力导图",
       icon : "dot-chart",
-      component: () => import('@/components/ForceChart'),
+      component: resolve=>(require(["@/components/ForceChart"],resolve)),
       meta:{requiresAuth: true}
     },
     {
@@ -52,7 +52,7 @@ let router = new Router({
       name: 'Table',
       name_z : "表格",
       icon : "table",
-      component: () => import('@/components/Table'),
+      component: resolve=>(require(["@/components/Table"],resolve)),
       meta:{requiresAuth: true}
     }
   ]
