@@ -31,7 +31,7 @@ export default {
         
 
         // 随机生成100个点的坐标信息
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 80; i++) {
             this.points.push(this.getPoint());
         }
         
@@ -79,7 +79,7 @@ export default {
                         y2 = this.points[j].y,
                         disPoint = this.dis(x1, y1, x2, y2);
 
-                    if(disPoint <= 130) {
+                    if(disPoint <= 150) {
                         this.ctx.beginPath();
                         this.ctx.moveTo(x1, y1);
                         this.ctx.lineTo(x2, y2);

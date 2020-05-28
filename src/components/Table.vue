@@ -1,8 +1,7 @@
 <template>
     <div class="table-content">
-        <a-input-search class="search-box" placeholder="请输入查询内容" enter-button @search="onSearch" />
-
-        <a-table :columns="columns" :data-source="data" :loading="loading" :row-selection="rowSelection">
+        <a-input-search class="search-box" placeholder="请输入查询内容" enter-button @search="onSearch"/>
+        <a-table :columns="columns" :data-source="data" :loading="loading" :row-selection="rowSelection" @change="onChange">
             <div 
                 slot="filterDropdown"
                 slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -35,6 +34,9 @@
                 type="search"
                 :style="{ color: filtered ? '#108ee9' : undefined }"
             />
+            <span slot="gender" slot-scope="gender">
+                {{gender | genderText}}
+            </span>
             <span slot="tags" slot-scope="tags">
                 <a-tag
                     v-for="tag in tags"
@@ -44,7 +46,6 @@
                     {{ tag.toUpperCase() }}
                 </a-tag>
             </span>
-            <span slot="gender" slot-scope="gender">{{gerder}}</span>
             <span slot="action" slot-scope="record">
                 <a>查看 一 {{ record.name }}</a>
                 <a-divider type="vertical" />
@@ -133,15 +134,28 @@ const columns = [
         title: '性别',
         dataIndex: 'gender',
         key: 'gender',
-        filters: [
-            { text: '男', value: 0 },
-            { text: '女', value: 1 },
+        scopedSlots: {
+            customRender: 'gender'
+        },
+        filters : [
+            {
+                text : "男",
+                value : 1
+            },
+            {
+                text : "女",
+                value : 2
+            }
         ],
+        // filteredValue: filteredInfo.gender || null,
+        onFilter: (value, record) => record.gender === value,
     },
     {
         title: '年龄',
         dataIndex: 'age',
-        key: 'age'
+        key: 'age',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.age - b.age,
     },
     {
         title: '标签',
@@ -176,42 +190,56 @@ const columns = [
     },
 ];
 
-
 export default {
-  data() {
-    return {
-        loading : false,
-        data : [],
-        columns,
-        searchText: '',
-        searchInput: null,
-        searchedColumn: '',
-        rowSelection
-    };
-  },
-  methods : {
-    onSearch(value){
-        this.loading = true;
-        this.getData(value);
+    data() {
+        return {
+            loading : false,
+            data : [],
+            columns,
+            searchText: '',
+            searchInput: null,
+            searchedColumn: '',
+            rowSelection
+        };
     },
-    async getData(value){
-        const res = await this.$http.get(`/api/v1/getSearchResult?search_text=${value}`);
-        this.data = [...res.data];
-        this.loading = false;
+    filters:{
+        genderText : (value)=>{
+            switch (value){
+                case 1:
+                    return "男";
+                case 2:
+                    return "女";
+                default:
+                    return "未知";
+            }
+        }
     },
-    onClick({ key }) {
-      console.log(key);
-    },
-    handleSearch(selectedKeys, confirm, dataIndex) {
-      confirm();
-      this.searchText = selectedKeys[0];
-      this.searchedColumn = dataIndex;
-    },
-    handleReset(clearFilters) {
-      clearFilters();
-      this.searchText = '';
-    },
-  }
+    methods : {
+        onSearch(value){
+            this.loading = true;
+            this.getData(value);
+        },
+        async getData(value){
+            const res = await this.$http.get(`/api/v1/getSearchResult?search_text=${value}`);
+            this.data = [...res.data];
+            this.loading = false;
+        },
+        onClick({ key }) {
+            console.log(key);
+        },
+        handleSearch(selectedKeys, confirm, dataIndex) {
+            confirm();
+            this.searchText = selectedKeys[0];
+            this.searchedColumn = dataIndex;
+        },
+        handleReset(clearFilters) {
+            clearFilters();
+            this.searchText = '';
+        },
+        onChange(pagination, filters, sorter) {
+            console.log('params', pagination, filters, sorter);
+        }
+    }
 };
 </script>
 <style scope>
