@@ -2,7 +2,39 @@
     <div class="table-content">
         <a-input-search class="search-box" placeholder="请输入查询内容" enter-button @search="onSearch" />
 
-        <a-table :columns="columns" :data-source="data" :loading="loading">
+        <a-table :columns="columns" :data-source="data" :loading="loading" :row-selection="rowSelection">
+            <div 
+                slot="filterDropdown"
+                slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                style="padding: 8px"
+            >
+                <a-input
+                    v-ant-ref="c => (searchInput = c)"
+                    :placeholder="`搜索 ${column.title}`"
+                    :value="selectedKeys[0]"
+                    style="width: 188px; margin-bottom: 8px; display: block;"
+                    @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                    @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                />
+                <a-button
+                    type="primary"
+                    icon="search"
+                    size="small"
+                    style="width: 90px; margin-right: 8px"
+                    @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                >
+                    搜索
+                </a-button>
+                <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+                    清空
+                </a-button>
+            </div>
+            <a-icon
+                slot="filterIcon"
+                slot-scope="filtered"
+                type="search"
+                :style="{ color: filtered ? '#108ee9' : undefined }"
+            />
             <span slot="tags" slot-scope="tags">
                 <a-tag
                     v-for="tag in tags"
@@ -39,26 +71,109 @@
             <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
                 {{ record.description }}
             </p>
+             <template slot="customRender" slot-scope="text, record, index, column">
+                <span v-if="searchText && searchedColumn === column.dataIndex">
+                    <template
+                    v-for="(fragment, i) in text
+                        .toString()
+                        .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
+                    >
+                    <mark
+                        v-if="fragment.toLowerCase() === searchText.toLowerCase()"
+                        :key="i"
+                        class="highlight"
+                        >{{ fragment }}</mark
+                    >
+                    <template v-else>{{ fragment }}</template>
+                    </template>
+                </span>
+                <template v-else>
+                    {{ text }}
+                </template>
+            </template>
         </a-table>
     </div>
 </template>
 <script>
-
-const columns = [
-  { title: '姓名', dataIndex: 'name', key: 'name' },
-  {
-    title: '性别',
-    dataIndex: 'gender',
-    key: 'gender',
-    filters: [
-      { text: '男', value: 0 },
-      { text: '女', value: 1 },
-    ],
+const rowSelection = {
+  onChange: (selectedRowKeys, selectedRows) => {
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
   },
-  { title: '年龄', dataIndex: 'age', key: 'age' },
-  { title: '标签', dataIndex: 'tags', key: 'tags', scopedSlots: { customRender: 'tags' }},
-  { title: '地址', dataIndex: 'address', key: 'address' },
-  { title: '操作', dataIndex: '', key: 'x', scopedSlots: { customRender: 'action' } },
+  onSelect: (record, selected, selectedRows) => {
+    console.log(record, selected, selectedRows);
+  },
+  onSelectAll: (selected, selectedRows, changeRows) => {
+    console.log(selected, selectedRows, changeRows);
+  },
+};
+const columns = [
+    {
+        title: '姓名', 
+        dataIndex: 'name', 
+        key: 'name', 
+        scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+        },
+        onFilter: (value, record) =>
+            record.name
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+        onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              }, 10);
+            }
+        },
+    },
+    {
+        title: '性别',
+        dataIndex: 'gender',
+        key: 'gender',
+        filters: [
+            { text: '男', value: 0 },
+            { text: '女', value: 1 },
+        ],
+    },
+    {
+        title: '年龄',
+        dataIndex: 'age',
+        key: 'age'
+    },
+    {
+        title: '标签',
+        dataIndex: 'tags',
+        key: 'tags',
+        scopedSlots: {
+            customRender: 'tags'
+        }
+    },
+    {
+        title: '地址',
+        dataIndex: 'address',
+        key: 'address',
+        scopedSlots: {
+            filterDropdown: 'filterDropdown',
+            filterIcon: 'filterIcon',
+            customRender: 'customRender',
+        },
+        onFilter: (value, record) => 
+        record.address
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+    },
+    {
+        title: '操作',
+        dataIndex: '',
+        key: 'x',
+        scopedSlots: {
+            customRender: 'action'
+        }
+    },
 ];
 
 
@@ -68,6 +183,10 @@ export default {
         loading : false,
         data : [],
         columns,
+        searchText: '',
+        searchInput: null,
+        searchedColumn: '',
+        rowSelection
     };
   },
   methods : {
@@ -82,7 +201,16 @@ export default {
     },
     onClick({ key }) {
       console.log(key);
-    }
+    },
+    handleSearch(selectedKeys, confirm, dataIndex) {
+      confirm();
+      this.searchText = selectedKeys[0];
+      this.searchedColumn = dataIndex;
+    },
+    handleReset(clearFilters) {
+      clearFilters();
+      this.searchText = '';
+    },
   }
 };
 </script>
@@ -93,5 +221,9 @@ export default {
     }
     .search-box{
         margin-bottom: 20px;
+    }
+    .highlight {
+    background-color: rgb(255, 192, 105);
+    padding: 0px;
     }
 </style>

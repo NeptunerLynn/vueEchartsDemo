@@ -6,12 +6,50 @@ import router from './router'
 import "./styles/index.css"
 
 // ant-design
-import Antd from "ant-design-vue"
-import 'ant-design-vue/dist/antd.less'
-Vue.use(Antd)
+// Vue.use(Antd)
+import { Button,Input,Form,Dropdown,Table,Tabs,Tag,Menu, Alert, Spin, Icon, Divider, Checkbox} from 'ant-design-vue';
+import 'ant-design-vue/lib/button/style';
+import 'ant-design-vue/lib/input/style';
+import 'ant-design-vue/lib/form/style';
+import 'ant-design-vue/lib/dropdown/style';
+import 'ant-design-vue/lib/table/style';
+import 'ant-design-vue/lib/tabs/style';
+import 'ant-design-vue/lib/tag/style';
+import 'ant-design-vue/lib/menu/style';
+import 'ant-design-vue/lib/alert/style';
+import 'ant-design-vue/lib/spin/style';
+import 'ant-design-vue/lib/icon/style';
+import 'ant-design-vue/lib/divider/style';
+import 'ant-design-vue/lib/checkbox/style';
+
+Vue.use(Button);
+Vue.use(Input);
+Vue.use(Form);
+Vue.use(Dropdown);
+Vue.use(Table);
+Vue.use(Tabs);
+Vue.use(Tag);
+Vue.use(Menu);
+Vue.use(Alert);
+Vue.use(Spin);
+Vue.use(Icon);
+Vue.use(Divider);
+Vue.use(Checkbox);
 
 // echarts
-import echarts from 'echarts'
+
+//引入基本模板
+let echarts = require('echarts/lib/echarts')
+ 
+// 引入折线图等组件
+require('echarts/lib/chart/line')
+require('echarts/lib/chart/bar')
+
+// 引入提示框和title组件，图例
+require('echarts/lib/component/tooltip')
+require('echarts/lib/component/title')
+require('echarts/lib/component/legend')
+
 Vue.prototype.$echarts = echarts
 
 // vuex
