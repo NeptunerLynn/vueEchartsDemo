@@ -1,7 +1,8 @@
 import Mock from 'mockjs'
 import barChartData from './data.js'
 import tableList from './table.js'
-Mock.mock('/api/v1/getBarChartData', 'get', () => barChartData.barChartData)
+import foreData from './force.js'
+Mock.mock('/api/v1/getBarChartData', 'get', () => barChartData.barChartData);
 Mock.mock(RegExp('/api/v1/getSearchResult?' + '.*'), 'get', (options) => {
     if(options.url.split("?")[1].split("=")[1]){
         return [
@@ -13,4 +14,5 @@ Mock.mock(RegExp('/api/v1/getSearchResult?' + '.*'), 'get', (options) => {
     }else{
         return tableList.tableData
     }
-})
+});
+Mock.mock('/api/v1/getForceData','get',() => foreData.foreData);

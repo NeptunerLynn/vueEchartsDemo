@@ -153,12 +153,12 @@ export default {
 .card-container > .ant-tabs-card > .ant-tabs-bar {
     border-color: #fff;
 }
-.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+/* .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
     border-color: transparent;
     background: transparent;
-}
+} */
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
-    font-weight: normal;
+    /* font-weight: normal; */
     border-bottom : none !important;
 }
 /* chart */

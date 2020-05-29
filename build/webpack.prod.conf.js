@@ -13,6 +13,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
 
+new HtmlWebpackPlugin({
+    filename: 'index.html',
+    template: 'index.html',
+    favicon: path.resolve('./favicon.ico'),
+    inject: true,
+})
+
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({

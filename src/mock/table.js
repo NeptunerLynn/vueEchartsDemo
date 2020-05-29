@@ -26,6 +26,15 @@ const data = [
       tags: ['nice', 'developer'],
       description: '继续举例，下面的两张截图分别是巨划算（卡片间距20px）和拼多多（卡片间距16px）的首页截图，这种电商类的APP因为需要承载大量的信息，所以一般间距设置的都比较小。',
     },
+    {
+      key: 4,
+      name: '陈默',
+      age: 61,
+      gender : 1,
+      address: '成都市温江区柳台大道1106号',
+      tags: ['nice'],
+      description: '继续举例，下面的两张截图分别是巨划算（卡片间距20px）和拼多多（卡片间距16px）的首页截图，这种电商类的APP因为需要承载大量的信息，所以一般间距设置的都比较小。',
+    }
   ];
 const tableData = [
     {

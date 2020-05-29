@@ -3,12 +3,18 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
+new HtmlWebpackPlugin({
+    filename: config.build.index,
+    template: 'index.html',
+    favicon: path.resolve('./favicon.ico'),
+    inject: true,
+});
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
